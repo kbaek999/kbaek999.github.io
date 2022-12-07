@@ -154,16 +154,16 @@ body.dark-theme{
     color: var(--dark-color)
 }
 
-.moon-icon{
+.sun-icon{
     display: none;
 }
 
-.light-theme .sun-icon{
-    display: none;
-}
-
-.light-theme .moon-icon{
+.dark-theme .sun-icon{
     display: block;
+}
+
+.dark-theme .moon-icon{
+    display: none;
 }
 /* Header JavaScript Styles */
 .header.activated{
