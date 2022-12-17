@@ -450,10 +450,75 @@ body.dark-theme{
     top: 1.5rem;
     left: 2rem;
 }
+
+.article.swiper-slide{
+    height: 40rem;
+}
 /* Quick read - Swiper */
+.swiper-wrapper{
+    height: auto;
+}
 
+.swiper-controls{
+    width: 5rem;
+    height: 3.5rem;
+    background-color: var(--secondary-background-color);
+}
+
+.swiper-controls::after{
+    font-size: 1.6rem;
+    color: var(--dark-color);
+}
+
+.swiper-pagination{
+    bottom: .5rem !important;
+}
+
+.swiper-pagination-bullet{
+    background-color: var(--dark-color);
+}
 /* Older posts */
+.older-posts-grid-wrapper{
+    gap: var(--gap);
+}
 
+.older-posts-article-image-wrapper,
+.older-posts .article{
+    min-height: var(--item-min-height-sm);
+}
+
+.older-posts .article{
+    background-color: var(--secondary-background-color);
+}
+
+.older-posts-article-image-wrapper{
+    position: relative;
+}
+
+.older-posts-grid-wrapper .article-data-container{
+    position: static;
+    background-color: transparent;
+}
+
+.older-posts-grid-wrapper .article-title{
+    margin-bottom: var(--margin-sm);
+}
+
+.see-more-container{
+    margin-top: var(--margin-md);
+}
+
+.see-more-btn{
+    text-transform: uppercase;
+}
+
+.see-more-btn i{
+    transition: transform .25s;
+}
+
+.see-more-btn i{
+    transform: translateX(.5rem);
+}
 /* Popular tags */
 
 /* Footer */
