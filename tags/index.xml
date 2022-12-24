@@ -1,0 +1,8 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>Tags - 태그 - kbaek999 Blog</title>
+        <link>https://kbaek999.github.io/tags/</link>
+        <description>Tags - 태그 - kbaek999 Blog</description>
+        <generator>Hugo -- gohugo.io</generator><language>ko</language><managingEditor>kkwoo8420@gmail.com (kbaek999)</managingEditor>
+            <webMaster>kkwoo8420@gmail.com (kbaek999)</webMaster><copyright>kbaek999</copyright><atom:link href="https://kbaek999.github.io/tags/" rel="self" type="application/rss+xml" /></channel>
+</rss>
