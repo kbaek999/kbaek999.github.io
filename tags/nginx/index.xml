@@ -1,12 +1,10 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
     <channel>
-        <title>kbaek999 Blog</title>
-        <link>https://kbaek999.github.io/</link>
-        <description>kbaek999 Blog</description>
+        <title>nginx - 태그 - kbaek999 Blog</title>
+        <link>https://kbaek999.github.io/tags/nginx/</link>
+        <description>nginx - 태그 - kbaek999 Blog</description>
         <generator>Hugo -- gohugo.io</generator><language>ko</language><managingEditor>kkwoo8420@gmail.com (kbaek999)</managingEditor>
-            <webMaster>kkwoo8420@gmail.com (kbaek999)</webMaster><copyright>kbaek999</copyright><lastBuildDate>Fri, 16 Jun 2023 23:57:18 &#43;0900</lastBuildDate>
-            <atom:link href="https://kbaek999.github.io/index.xml" rel="self" type="application/rss+xml" />
-        <item>
+            <webMaster>kkwoo8420@gmail.com (kbaek999)</webMaster><copyright>kbaek999</copyright><lastBuildDate>Fri, 16 Jun 2023 23:57:18 &#43;0900</lastBuildDate><atom:link href="https://kbaek999.github.io/tags/nginx/" rel="self" type="application/rss+xml" /><item>
     <title>엔진엑스(Nginx) 주요 설정 파일과 간단한 명령어</title>
     <link>https://kbaek999.github.io/posts/nginx_1/</link>
     <pubDate>Fri, 16 Jun 2023 23:57:18 &#43;0900</pubDate>
