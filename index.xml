@@ -4,9 +4,17 @@
         <link>https://kbaek999.github.io/</link>
         <description>kbaek999 Blog</description>
         <generator>Hugo -- gohugo.io</generator><language>ko</language><managingEditor>kkwoo8420@gmail.com (kbaek999)</managingEditor>
-            <webMaster>kkwoo8420@gmail.com (kbaek999)</webMaster><copyright>kbaek999</copyright><lastBuildDate>Fri, 16 Jun 2023 23:57:18 &#43;0900</lastBuildDate>
+            <webMaster>kkwoo8420@gmail.com (kbaek999)</webMaster><copyright>kbaek999</copyright><lastBuildDate>Sat, 17 Jun 2023 12:11:35 &#43;0900</lastBuildDate>
             <atom:link href="https://kbaek999.github.io/index.xml" rel="self" type="application/rss+xml" />
         <item>
+    <title>고성능 부하분산을 위한 엔진엑스 활용 방법-1 (HTTP)</title>
+    <link>https://kbaek999.github.io/posts/nginx_2/</link>
+    <pubDate>Sat, 17 Jun 2023 12:11:35 &#43;0900</pubDate>
+    <author>kbaek999</author>
+    <guid>https://kbaek999.github.io/posts/nginx_2/</guid>
+    <description><![CDATA[고성능 부하분산 필요성 오늘날 인터넷 서비스의 사용자 경험 향상을 위해 높은 성능과 가용성이 요구됩니다. 대규모 애플리케이션을 처리하려면 지능적인 부하분산 장치]]></description>
+</item>
+<item>
     <title>엔진엑스(Nginx) 주요 설정 파일과 간단한 명령어</title>
     <link>https://kbaek999.github.io/posts/nginx_1/</link>
     <pubDate>Fri, 16 Jun 2023 23:57:18 &#43;0900</pubDate>
