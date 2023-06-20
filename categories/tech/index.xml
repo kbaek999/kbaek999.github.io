@@ -4,7 +4,15 @@
         <link>https://kbaek999.github.io/categories/tech/</link>
         <description>Tech - 카테고리 - kbaek999 Blog</description>
         <generator>Hugo -- gohugo.io</generator><language>ko</language><managingEditor>kkwoo8420@gmail.com (kbaek999)</managingEditor>
-            <webMaster>kkwoo8420@gmail.com (kbaek999)</webMaster><copyright>kbaek999</copyright><lastBuildDate>Sat, 17 Jun 2023 12:11:35 &#43;0900</lastBuildDate><atom:link href="https://kbaek999.github.io/categories/tech/" rel="self" type="application/rss+xml" /><item>
+            <webMaster>kkwoo8420@gmail.com (kbaek999)</webMaster><copyright>kbaek999</copyright><lastBuildDate>Tue, 20 Jun 2023 22:27:18 &#43;0900</lastBuildDate><atom:link href="https://kbaek999.github.io/categories/tech/" rel="self" type="application/rss+xml" /><item>
+    <title>고성능 부하분산을 위한 엔진엑스 활용 방법-2 (TCP, UDP)</title>
+    <link>https://kbaek999.github.io/posts/nginx_3/</link>
+    <pubDate>Tue, 20 Jun 2023 22:27:18 &#43;0900</pubDate>
+    <author>kbaek999</author>
+    <guid>https://kbaek999.github.io/posts/nginx_3/</guid>
+    <description><![CDATA[엔진엑스 TCP 부하분산 엔진엑스는 HTTP뿐만 아니라 TCP, UDP 트래픽을 위한 부하분산도 지원합니다. TCP 부하분산은 업스트림 블록과 stream 모듈을 사용하여 구현됩니다. upstream]]></description>
+</item>
+<item>
     <title>고성능 부하분산을 위한 엔진엑스 활용 방법-1 (HTTP)</title>
     <link>https://kbaek999.github.io/posts/nginx_2/</link>
     <pubDate>Sat, 17 Jun 2023 12:11:35 &#43;0900</pubDate>
