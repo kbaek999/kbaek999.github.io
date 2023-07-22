@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>Github Actions와 Youtube API, Twitter API를 이용한 유튜브 영상 자동 트윗 (1) - kbaek999 Blog</title><meta name="Description" content="kbaek999 Blog"><meta property="og:title" content="Github Actions와 Youtube API, Twitter API를 이용한 유튜브 영상 자동 트윗 (1)" />
+<meta property="og:description" content="유튜브 시작했는데 트위터에 홍보하고 싶었음. 기존에는 유튜브에 영상올리고 영상URL이랑 제목 복사해서 트위터에 올렸었음. 간단한 작업이지만 귀찮음. 그래서" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kbaek999.github.io/posts/youtube_api_1/" /><meta property="og:image" content="https://kbaek999.github.io"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-07-22T12:19:57+09:00" />
+<meta property="article:modified_time" content="2023-07-22T12:19:57+09:00" /><meta property="og:site_name" content="kbaek999" />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://kbaek999.github.io"/>
+
+<meta name="twitter:title" content="Github Actions와 Youtube API, Twitter API를 이용한 유튜브 영상 자동 트윗 (1)"/>
+<meta name="twitter:description" content="유튜브 시작했는데 트위터에 홍보하고 싶었음. 기존에는 유튜브에 영상올리고 영상URL이랑 제목 복사해서 트위터에 올렸었음. 간단한 작업이지만 귀찮음. 그래서"/>
+<meta name="application-name" content="kbaek999 Blog">
+<meta name="apple-mobile-web-app-title" content="kbaek999 Blog"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://kbaek999.github.io/posts/youtube_api_1/" /><link rel="prev" href="https://kbaek999.github.io/posts/nginx_3/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css"></noscript><link rel="preload" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Github Actions와 Youtube API, Twitter API를 이용한 유튜브 영상 자동 트윗 (1)",
+        "inLanguage": "ko",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/kbaek999.github.io\/posts\/youtube_api_1\/"
+        },"genre": "posts","keywords": "Youtube API, Github Actions, Python","wordcount":  1319 ,
+        "url": "https:\/\/kbaek999.github.io\/posts\/youtube_api_1\/","datePublished": "2023-07-22T12:19:57+09:00","dateModified": "2023-07-22T12:19:57+09:00","license": "kbaek999","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "kbaek999"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="kbaek999 Blog">kbaek999 Blog</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> Posts </a><a class="menu-item" href="/tags/"> Tags </a><a class="menu-item" href="/categories/"> Categories </a><a class="menu-item" href="/about/"> About </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="제목이나 내용을 입력..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="검색">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="지우기">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="테마 변경">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="kbaek999 Blog">kbaek999 Blog</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="제목이나 내용을 입력..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="검색">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="지우기">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        취소
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">Posts</a><a class="menu-item" href="/tags/" title="">Tags</a><a class="menu-item" href="/categories/" title="">Categories</a><a class="menu-item" href="/about/" title="">About</a><a href="javascript:void(0);" class="menu-item theme-switch" title="테마 변경">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><div class="search-dropdown desktop">
+        <div id="search-dropdown-desktop"></div>
+    </div>
+    <div class="search-dropdown mobile">
+        <div id="search-dropdown-mobile"></div>
+    </div><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">목차</h2>
+            <div class="toc-content always-active" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Github Actions와 Youtube API, Twitter API를 이용한 유튜브 영상 자동 트윗 (1)</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="https://github.com/kbaek999" title="Author" target="_blank" rel="noopener noreffer author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>kbaek999</a></span>&nbsp;<span class="post-category">분류: <a href="/categories/tech/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Tech</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2023-07-22">2023-07-22</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;1319 단어&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;읽는데 약 3분&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>목차</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#간단한-설명">간단한 설명</a></li>
+    <li><a href="#1-youtube-api발급">1. Youtube API발급</a></li>
+    <li><a href="#2-youtube-api-를-사용해서-채널-검색">2. Youtube API 를 사용해서 채널 검색</a>
+      <ul>
+        <li><a href="#유튜브-채널을-검색하는-코드">유튜브 채널을 검색하는 코드</a></li>
+        <li><a href="#실행-결과">실행 결과</a></li>
+        <li><a href="#channelid와-channeltitle만-출력하는-코드">channelId와 channelTitle만 출력하는 코드</a></li>
+        <li><a href="#실행-결과-1">실행 결과</a></li>
+      </ul>
+    </li>
+    <li><a href="#3-channelid를-사용해서-최신-영상의-정보-가져오기">3. channelID를 사용해서 최신 영상의 정보 가져오기</a>
+      <ul>
+        <li><a href="#빠니보틀-채널의-가장-최근-영상의-정보를-가져오는-코드">빠니보틀 채널의 가장 최근 영상의 정보를 가져오는 코드</a></li>
+        <li><a href="#실행-결과-2">실행 결과</a></li>
+        <li><a href="#영상의-정보를-활용해서-최근-1달-안에-업로드된-영상이-있으면-제목-url-업로드-시간을-출력하도록-수정">영상의 정보를 활용해서 최근 1달 안에 업로드된 영상이 있으면 제목, url, 업로드 시간을 출력하도록 수정</a></li>
+        <li><a href="#실행-결과-3">실행 결과</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><p>유튜브 시작했는데 트위터에 홍보하고 싶었음.</p>
+<p>기존에는 유튜브에 영상올리고 영상URL이랑 제목 복사해서 트위터에 올렸었음.</p>
+<p>간단한 작업이지만 귀찮음.</p>
+<p>그래서 Github Actions 사용해서 자동화함.</p>
+<h2 id="간단한-설명">간단한 설명</h2>
+<p>Youtube API를 발급받고, 정보를 가져오는 python툴을 작성해서 테스트</p>
+<h2 id="1-youtube-api발급">1. Youtube API발급</h2>
+<p>GCP에 접속해서 새 프로젝트 생성
+<a href="https://console.cloud.google.com/projectselector2/apis/dashboard?supportedpurview=project" target="_blank" rel="noopener noreffer ">https://console.cloud.google.com/projectselector2/apis/dashboard?supportedpurview=project</a></p>
+<p>생성 후에 <code>API및 서비스 사용설정</code> 에서 <code>Youtube Data API v3</code> 를 활성화</p>
+<p>활성화 후 <code>사용사 인증 정보 만들기</code> 에서 <code>공개 데이터</code> 선택후 인증 정보 생성(영상 업로드등은 하지않고, 검색만 사용하기 때문에 공개 데이터를 설정)</p>
+<h2 id="2-youtube-api-를-사용해서-채널-검색">2. Youtube API 를 사용해서 채널 검색</h2>
+<p>윈도우 cmd 등을 사용해서 google-api-python-client 설치</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">pip install google-api-python-client
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="유튜브-채널을-검색하는-코드">유튜브 채널을 검색하는 코드</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-Python" data-lang="Python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">googleapiclient.discovery</span> <span class="kn">import</span> <span class="n">build</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">json</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">DEVELOPER_KEY</span> <span class="o">=</span> <span class="s2">&#34;생성한 API KEY&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="n">YOUTUBE_API_SERVICE_NAME</span> <span class="o">=</span> <span class="s2">&#34;youtube&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="n">YOUTUBE_API_VERSION</span> <span class="o">=</span> <span class="s2">&#34;v3&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">SEARCH_KEYWORD</span> <span class="o">=</span> <span class="s2">&#34;빠니보틀&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">youtube</span> <span class="o">=</span> <span class="n">build</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">YOUTUBE_API_SERVICE_NAME</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">YOUTUBE_API_VERSION</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">developerKey</span><span class="o">=</span><span class="n">DEVELOPER_KEY</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">response</span> <span class="o">=</span> <span class="n">youtube</span><span class="o">.</span><span class="n">search</span><span class="p">()</span><span class="o">.</span><span class="n">list</span><span class="p">(</span><span class="n">q</span><span class="o">=</span><span class="n">SEARCH_KEYWORD</span><span class="p">,</span> <span class="n">part</span><span class="o">=</span><span class="s1">&#39;id,snippet&#39;</span><span class="p">,</span> <span class="n">maxResults</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span><span class="o">.</span><span class="n">execute</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">response</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;items&#39;</span><span class="p">,</span> <span class="p">[]):</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="n">item</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">][</span><span class="s1">&#39;kind&#39;</span><span class="p">]</span> <span class="o">!=</span> <span class="s1">&#39;youtube#channel&#39;</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="k">continue</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;#&#39;</span> <span class="o">*</span> <span class="mi">20</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">ensure_ascii</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;#&#39;</span> <span class="o">*</span> <span class="mi">20</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="실행-결과">실행 결과</h3>
+<p>검색 키워드는 빠니보틀로 설정하고 실행.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">####################
+</span></span><span class="line"><span class="cl">{
+</span></span><span class="line"><span class="cl">  &#34;kind&#34;: &#34;youtube#searchResult&#34;,
+</span></span><span class="line"><span class="cl">  &#34;etag&#34;: &#34;w8nICUqz5m6JLzgLC8KDKS7t738&#34;,
+</span></span><span class="line"><span class="cl">  &#34;id&#34;: {
+</span></span><span class="line"><span class="cl">    &#34;kind&#34;: &#34;youtube#channel&#34;,
+</span></span><span class="line"><span class="cl">    &#34;channelId&#34;: &#34;UCNhofiqfw5nl-NeDJkXtPvw&#34;
+</span></span><span class="line"><span class="cl">  },
+</span></span><span class="line"><span class="cl">  &#34;snippet&#34;: {
+</span></span><span class="line"><span class="cl">    &#34;publishedAt&#34;: &#34;2012-03-19T04:06:59Z&#34;,
+</span></span><span class="line"><span class="cl">    &#34;channelId&#34;: &#34;UCNhofiqfw5nl-NeDJkXtPvw&#34;,
+</span></span><span class="line"><span class="cl">    &#34;title&#34;: &#34;빠니보틀 Pani Bottle&#34;,
+</span></span><span class="line"><span class="cl">    &#34;description&#34;: &#34;여행합니다.&#34;,
+</span></span><span class="line"><span class="cl">    &#34;thumbnails&#34;: {
+</span></span><span class="line"><span class="cl">      &#34;default&#34;: {
+</span></span><span class="line"><span class="cl">        &#34;url&#34;: &#34;https://yt3.ggpht.com/lh7GiITaDKNdh6hi2GasqJrfi6AqDaj0qqR1UvVWGZPjltJmYzuftmA65KDy_Tltu6S8k82WkQ=s88-c-k-c0xffffffff-no-rj-mo&#34;
+</span></span><span class="line"><span class="cl">      },
+</span></span><span class="line"><span class="cl">      &#34;medium&#34;: {
+</span></span><span class="line"><span class="cl">        &#34;url&#34;: &#34;https://yt3.ggpht.com/lh7GiITaDKNdh6hi2GasqJrfi6AqDaj0qqR1UvVWGZPjltJmYzuftmA65KDy_Tltu6S8k82WkQ=s240-c-k-c0xffffffff-no-rj-mo&#34;
+</span></span><span class="line"><span class="cl">      },
+</span></span><span class="line"><span class="cl">      &#34;high&#34;: {
+</span></span><span class="line"><span class="cl">        &#34;url&#34;: &#34;https://yt3.ggpht.com/lh7GiITaDKNdh6hi2GasqJrfi6AqDaj0qqR1UvVWGZPjltJmYzuftmA65KDy_Tltu6S8k82WkQ=s800-c-k-c0xffffffff-no-rj-mo&#34;
+</span></span><span class="line"><span class="cl">      }
+</span></span><span class="line"><span class="cl">    },
+</span></span><span class="line"><span class="cl">    &#34;channelTitle&#34;: &#34;빠니보틀 Pani Bottle&#34;,
+</span></span><span class="line"><span class="cl">    &#34;liveBroadcastContent&#34;: &#34;none&#34;,
+</span></span><span class="line"><span class="cl">    &#34;publishTime&#34;: &#34;2012-03-19T04:06:59Z&#34;
+</span></span><span class="line"><span class="cl">  }
+</span></span><span class="line"><span class="cl">}
+</span></span><span class="line"><span class="cl">####################
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="channelid와-channeltitle만-출력하는-코드">channelId와 channelTitle만 출력하는 코드</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-Python" data-lang="Python"><span class="line"><span class="cl"><span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">response</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;items&#39;</span><span class="p">,</span> <span class="p">[]):</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="n">item</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">][</span><span class="s1">&#39;kind&#39;</span><span class="p">]</span> <span class="o">!=</span> <span class="s1">&#39;youtube#channel&#39;</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="k">continue</span>
+</span></span><span class="line"><span class="cl">    <span class="n">channelId</span> <span class="o">=</span> <span class="n">item</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">][</span><span class="s1">&#39;channelId&#39;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">    <span class="n">channelTitle</span> <span class="o">=</span> <span class="n">item</span><span class="p">[</span><span class="s1">&#39;snippet&#39;</span><span class="p">][</span><span class="s1">&#39;title&#39;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;#&#39;</span> <span class="o">*</span> <span class="mi">20</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;Channel ID: </span><span class="si">{</span><span class="n">channelId</span><span class="si">}</span><span class="s2">&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;Channel Title: </span><span class="si">{</span><span class="n">channelTitle</span><span class="si">}</span><span class="s2">&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;#&#39;</span> <span class="o">*</span> <span class="mi">20</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="실행-결과-1">실행 결과</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">####################
+</span></span><span class="line"><span class="cl">Channel ID: UCNhofiqfw5nl-NeDJkXtPvw
+</span></span><span class="line"><span class="cl">Channel Title: 빠니보틀 Pani Bottle
+</span></span><span class="line"><span class="cl">####################
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="3-channelid를-사용해서-최신-영상의-정보-가져오기">3. channelID를 사용해서 최신 영상의 정보 가져오기</h2>
+<h3 id="빠니보틀-채널의-가장-최근-영상의-정보를-가져오는-코드">빠니보틀 채널의 가장 최근 영상의 정보를 가져오는 코드</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-Python" data-lang="Python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">googleapiclient.discovery</span> <span class="kn">import</span> <span class="n">build</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">json</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">DEVELOPER_KEY</span> <span class="o">=</span> <span class="s2">&#34;생성한 API KEY&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="n">YOUTUBE_API_SERVICE_NAME</span> <span class="o">=</span> <span class="s2">&#34;youtube&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="n">YOUTUBE_API_VERSION</span> <span class="o">=</span> <span class="s2">&#34;v3&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="n">CHANNEL_ID</span> <span class="o">=</span> <span class="s2">&#34;UCNhofiqfw5nl-NeDJkXtPvw&#34;</span> <span class="c1">#빠니보틀의 유튜브 채널ID</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">youtube</span> <span class="o">=</span> <span class="n">build</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">YOUTUBE_API_SERVICE_NAME</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">YOUTUBE_API_VERSION</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">developerKey</span><span class="o">=</span><span class="n">DEVELOPER_KEY</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 채널id와 시간순으로 정렬해서 최신 영상의 정보를 가져옴</span>
+</span></span><span class="line"><span class="cl"><span class="n">response</span> <span class="o">=</span> <span class="n">youtube</span><span class="o">.</span><span class="n">search</span><span class="p">()</span><span class="o">.</span><span class="n">list</span><span class="p">(</span><span class="n">channelId</span><span class="o">=</span><span class="n">CHANNEL_ID</span><span class="p">,</span> <span class="n">part</span><span class="o">=</span><span class="s1">&#39;id,snippet&#39;</span><span class="p">,</span> <span class="n">maxResults</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="s1">&#39;date&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">execute</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">response</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;items&#39;</span><span class="p">,</span> <span class="p">[]):</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="n">item</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">][</span><span class="s1">&#39;kind&#39;</span><span class="p">]</span> <span class="o">!=</span> <span class="s1">&#39;youtube#video&#39;</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="k">continue</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">ensure_ascii</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="실행-결과-2">실행 결과</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">{
+</span></span><span class="line"><span class="cl">  &#34;kind&#34;: &#34;youtube#searchResult&#34;,
+</span></span><span class="line"><span class="cl">  &#34;etag&#34;: &#34;olgnqjISECcEiQsEzuDhtvWM23A&#34;,
+</span></span><span class="line"><span class="cl">  &#34;id&#34;: {
+</span></span><span class="line"><span class="cl">    &#34;kind&#34;: &#34;youtube#video&#34;,
+</span></span><span class="line"><span class="cl">    &#34;videoId&#34;: &#34;5TIgtb39KJ0&#34;
+</span></span><span class="line"><span class="cl">  },
+</span></span><span class="line"><span class="cl">  &#34;snippet&#34;: {
+</span></span><span class="line"><span class="cl">    &#34;publishedAt&#34;: &#34;2023-06-26T03:00:02Z&#34;,
+</span></span><span class="line"><span class="cl">    &#34;channelId&#34;: &#34;UCNhofiqfw5nl-NeDJkXtPvw&#34;,
+</span></span><span class="line"><span class="cl">    &#34;title&#34;: &#34;바다에서 사는 바자우 부족 마을에서의 멋진 하루 【인도네시아5】&#34;,
+</span></span><span class="line"><span class="cl">    &#34;description&#34;: &#34;인도네시아 끝! 떼리마 까씨 -------------------------------------- 카메라 Gopro11 Galaxy S21 Ultra Insta360 X3 ...&#34;,
+</span></span><span class="line"><span class="cl">    &#34;thumbnails&#34;: {
+</span></span><span class="line"><span class="cl">      &#34;default&#34;: {
+</span></span><span class="line"><span class="cl">        &#34;url&#34;: &#34;https://i.ytimg.com/vi/5TIgtb39KJ0/default.jpg&#34;,
+</span></span><span class="line"><span class="cl">        &#34;width&#34;: 120,
+</span></span><span class="line"><span class="cl">        &#34;height&#34;: 90
+</span></span><span class="line"><span class="cl">      },
+</span></span><span class="line"><span class="cl">      &#34;medium&#34;: {
+</span></span><span class="line"><span class="cl">        &#34;url&#34;: &#34;https://i.ytimg.com/vi/5TIgtb39KJ0/mqdefault.jpg&#34;,
+</span></span><span class="line"><span class="cl">        &#34;width&#34;: 320,
+</span></span><span class="line"><span class="cl">        &#34;height&#34;: 180
+</span></span><span class="line"><span class="cl">      },
+</span></span><span class="line"><span class="cl">      &#34;high&#34;: {
+</span></span><span class="line"><span class="cl">        &#34;url&#34;: &#34;https://i.ytimg.com/vi/5TIgtb39KJ0/hqdefault.jpg&#34;,
+</span></span><span class="line"><span class="cl">        &#34;width&#34;: 480,
+</span></span><span class="line"><span class="cl">        &#34;height&#34;: 360
+</span></span><span class="line"><span class="cl">      }
+</span></span><span class="line"><span class="cl">    },
+</span></span><span class="line"><span class="cl">    &#34;channelTitle&#34;: &#34;빠니보틀 Pani Bottle&#34;,
+</span></span><span class="line"><span class="cl">    &#34;liveBroadcastContent&#34;: &#34;none&#34;,
+</span></span><span class="line"><span class="cl">    &#34;publishTime&#34;: &#34;2023-06-26T03:00:02Z&#34;
+</span></span><span class="line"><span class="cl">  }
+</span></span><span class="line"><span class="cl">}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="영상의-정보를-활용해서-최근-1달-안에-업로드된-영상이-있으면-제목-url-업로드-시간을-출력하도록-수정">영상의 정보를 활용해서 최근 1달 안에 업로드된 영상이 있으면 제목, url, 업로드 시간을 출력하도록 수정</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-Python" data-lang="Python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">googleapiclient.discovery</span> <span class="kn">import</span> <span class="n">build</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">json</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">DEVELOPER_KEY</span> <span class="o">=</span> <span class="s2">&#34;생성한 API KEY&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="n">YOUTUBE_API_SERVICE_NAME</span> <span class="o">=</span> <span class="s2">&#34;youtube&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="n">YOUTUBE_API_VERSION</span> <span class="o">=</span> <span class="s2">&#34;v3&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="n">CHANNEL_ID</span> <span class="o">=</span> <span class="s2">&#34;UCNhofiqfw5nl-NeDJkXtPvw&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">youtube</span> <span class="o">=</span> <span class="n">build</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">YOUTUBE_API_SERVICE_NAME</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">YOUTUBE_API_VERSION</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">developerKey</span><span class="o">=</span><span class="n">DEVELOPER_KEY</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">response</span> <span class="o">=</span> <span class="n">youtube</span><span class="o">.</span><span class="n">search</span><span class="p">()</span><span class="o">.</span><span class="n">list</span><span class="p">(</span><span class="n">channelId</span><span class="o">=</span><span class="n">CHANNEL_ID</span><span class="p">,</span> <span class="n">part</span><span class="o">=</span><span class="s1">&#39;id,snippet&#39;</span><span class="p">,</span> <span class="n">maxResults</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="s1">&#39;date&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">execute</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 최근영상을 검색하고, vedeoId, 제목, 업로드 시간을 저장하고 영상의 url을 생성</span>
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">response</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;items&#39;</span><span class="p">,</span> <span class="p">[]):</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="n">item</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">][</span><span class="s1">&#39;kind&#39;</span><span class="p">]</span> <span class="o">!=</span> <span class="s1">&#39;youtube#video&#39;</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="k">continue</span>
+</span></span><span class="line"><span class="cl">    <span class="n">videoId</span><span class="o">=</span><span class="n">item</span><span class="p">[</span><span class="s2">&#34;id&#34;</span><span class="p">][</span><span class="s2">&#34;videoId&#34;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">    <span class="n">title</span><span class="o">=</span><span class="n">item</span><span class="p">[</span><span class="s2">&#34;snippet&#34;</span><span class="p">][</span><span class="s2">&#34;title&#34;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">    <span class="n">publishTime</span><span class="o">=</span><span class="n">item</span><span class="p">[</span><span class="s2">&#34;snippet&#34;</span><span class="p">][</span><span class="s2">&#34;publishTime&#34;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">    <span class="n">latest_url</span><span class="o">=</span><span class="sa">f</span><span class="s2">&#34;https://youtu.be/</span><span class="si">{</span><span class="n">videoId</span><span class="si">}</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 코드 실행 시간</span>
+</span></span><span class="line"><span class="cl"><span class="n">now</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 코드 실행 시간을 unixtime으로 변환</span>
+</span></span><span class="line"><span class="cl"><span class="n">now_ts</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">now</span><span class="o">.</span><span class="n">timestamp</span><span class="p">())</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 최근영상 업로드 시간</span>
+</span></span><span class="line"><span class="cl"><span class="n">upload_time</span> <span class="o">=</span> <span class="n">publishTime</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 끝의 Z를 삭제</span>
+</span></span><span class="line"><span class="cl"><span class="n">upload_time</span><span class="o">=</span><span class="n">upload_time</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 업로드 시간을 문자열로 변환</span>
+</span></span><span class="line"><span class="cl"><span class="n">upload_dt</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">fromisoformat</span><span class="p">(</span><span class="n">upload_time</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 업로드 시간을 unixtime으로 변환</span>
+</span></span><span class="line"><span class="cl"><span class="n">upload_ts</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">upload_dt</span><span class="o">.</span><span class="n">timestamp</span><span class="p">())</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 기간을 1달로 설정 뒤의 숫자를 수정해서 1시간 1주일 등으로 변경 가능</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="n">now_ts</span><span class="o">-</span><span class="n">upload_ts</span><span class="o">&lt;=</span><span class="mi">24</span><span class="o">*</span><span class="mi">3600</span><span class="o">*</span><span class="mi">30</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;최근 영상: &#34;</span><span class="p">,</span><span class="n">title</span><span class="p">,</span><span class="n">latest_url</span><span class="p">,</span><span class="n">upload_dt</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">else</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;최근 영상 없음&#34;</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="실행-결과-3">실행 결과</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">최근 영상:  바다에서 사는 바자우 부족 마을에서의 멋진 하루 【인도네시아5】 https://youtu.be/5TIgtb39KJ0 2023-06-26 03:00:02
+</span></span></code></pre></td></tr></table>
+</div>
+</div></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>수정: 2023-07-22</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="공유하기 Twitter" data-sharer="twitter" data-url="https://kbaek999.github.io/posts/youtube_api_1/" data-title="Github Actions와 Youtube API, Twitter API를 이용한 유튜브 영상 자동 트윗 (1)" data-hashtags="Youtube API,Github Actions,Python"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="공유하기 Facebook" data-sharer="facebook" data-url="https://kbaek999.github.io/posts/youtube_api_1/" data-hashtag="Youtube API"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="공유하기 Line" data-sharer="line" data-url="https://kbaek999.github.io/posts/youtube_api_1/" data-title="Github Actions와 Youtube API, Twitter API를 이용한 유튜브 영상 자동 트윗 (1)"><i data-svg-src="https://cdn.jsdelivr.net/npm/simple-icons@7.3.0/icons/line.svg" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/youtube-api/">Youtube API</a>,&nbsp;<a href="/tags/github-actions/">Github Actions</a>,&nbsp;<a href="/tags/python/">Python</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">뒤로</a></span>&nbsp;|&nbsp;<span><a href="/">홈</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/posts/nginx_3/" class="prev" rel="prev" title="고성능 부하분산을 위한 엔진엑스 활용 방법-2 (TCP, UDP)"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>고성능 부하분산을 위한 엔진엑스 활용 방법-2 (TCP, UDP)</a></div>
+</div>
+<div id="comments"><div id="disqus_thread" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://disqus.com/?ref_noscript">Disqus</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022 - 2023</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://github.com/kbaek999" target="_blank">kbaek999</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="맨 위로">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="댓글 보기">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><script type="text/javascript" src="https://comment-test-11.disqus.com/embed.js" defer></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/autocomplete.js@0.38.1/dist/autocomplete.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/algoliasearch@4.13.1/dist/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sharer.js@0.5.1/sharer.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"복사하기","maxShownLines":50},"comment":{},"search":{"algoliaAppID":"","algoliaIndex":"","algoliaSearchKey":"","highlightTag":"em","maxResultLength":10,"noResultsFound":"검색 결과 없음","snippetLength":30,"type":"algolia"}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

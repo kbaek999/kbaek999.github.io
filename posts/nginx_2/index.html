@@ -29,7 +29,7 @@
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "https:\/\/kbaek999.github.io\/posts\/nginx_2\/"
-        },"genre": "posts","keywords": "nginx","wordcount":  645 ,
+        },"genre": "posts","keywords": "nginx","wordcount":  655 ,
         "url": "https:\/\/kbaek999.github.io\/posts\/nginx_2\/","datePublished": "2023-06-17T12:11:35+09:00","dateModified": "2023-06-17T12:11:35+09:00","license": "kbaek999","publisher": {
             "@type": "Organization",
             "name": ""},"author": {
@@ -100,10 +100,10 @@
     </div><main class="main">
                 <div class="container"><div class="toc" id="toc-auto">
             <h2 class="toc-title">목차</h2>
-            <div class="toc-content" id="toc-content-auto"></div>
+            <div class="toc-content always-active" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">고성능 부하분산을 위한 엔진엑스 활용 방법-1 (HTTP)</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="https://github.com/kbaek999" title="Author" target="_blank" rel="noopener noreffer author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>kbaek999</a></span>&nbsp;<span class="post-category">분류: <a href="/categories/tech/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Tech</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2023-06-17">2023-06-17</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;645 단어&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2023-06-17">2023-06-17</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;655 단어&nbsp;
                 <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;읽는데 약 2분&nbsp;</div>
         </div><div class="details toc" id="toc-static"  data-kept="">
                 <div class="details-summary toc-title">
@@ -125,17 +125,33 @@
 <p>오늘날 인터넷 서비스의 사용자 경험 향상을 위해 높은 성능과 가용성이 요구됩니다. 대규모 애플리케이션을 처리하려면 지능적인 부하분산 장치가 필요합니다. 엔진엑스는 사용자의 요청에 따라 효율적으로 부하를 분산해주는 솔루션을 제공합니다.</p>
 <h2 id="http-부하분산-구현">HTTP 부하분산 구현</h2>
 <p>엔진엑스는 upstream 블록과 http 모듈을 이용해 HTTP 서버 간에 부하를 분산할 수 있습니다. 예를 들면,</p>
-<pre tabindex="0"><code>upstream backend { 
-  server 127.0.0.10:80         weight=1;
-  server master.example.com:80 weight=2;
-  server backup.example.com:80 backup;
-} 
-server { 
-  location / { 
-    proxy_pass http://backend;
-  } 
-}
-</code></pre><p>위의 엔진엑스 설정은 80 포트를 사용하는 HTTP 서버 두 대로 부하를 분산합니다. 설정한 프라이머리 서버 두 대에 문제가 발생해 연결이 불가능하면 백업으로 지정한 서버를 사용합니다. 지정한 weight 매개변수 값에 따라 두 번째 서버는 첫 번째 서버보다 두 배 많은 요청을 받습니다. 참고로 weight의 기본값은 1이며 생략할 수 있습니다.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">upstream backend { 
+</span></span><span class="line"><span class="cl">  server 127.0.0.10:80         weight=1;
+</span></span><span class="line"><span class="cl">  server master.example.com:80 weight=2;
+</span></span><span class="line"><span class="cl">  server backup.example.com:80 backup;
+</span></span><span class="line"><span class="cl">} 
+</span></span><span class="line"><span class="cl">server { 
+</span></span><span class="line"><span class="cl">  location / { 
+</span></span><span class="line"><span class="cl">    proxy_pass http://backend;
+</span></span><span class="line"><span class="cl">  } 
+</span></span><span class="line"><span class="cl">}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>위의 엔진엑스 설정은 80 포트를 사용하는 HTTP 서버 두 대로 부하를 분산합니다. 설정한 프라이머리 서버 두 대에 문제가 발생해 연결이 불가능하면 백업으로 지정한 서버를 사용합니다. 지정한 weight 매개변수 값에 따라 두 번째 서버는 첫 번째 서버보다 두 배 많은 요청을 받습니다. 참고로 weight의 기본값은 1이며 생략할 수 있습니다.</p>
 <h3 id="부하분산-알고리즘">부하분산 알고리즘</h3>
 <p>엔진엑스는 다양한 부하분산 알고리즘을 지원합니다. 가중치를 적용할 수 있는 매개변수를 사용해 분산 알고리즘에 가중치를 적용할 수 있습니다. 엔진엑스 플러스는 특정 서버로의 연결 수를 제한하는 고급 매개변수와 가동된 지 얼마 안 된 서버로는 연결이 천천히 늘어가게 하는 고급 매개변수를 제공합니다.</p>
 <h2 id="서버-상태-확인">서버 상태 확인</h2>
@@ -164,7 +180,9 @@ server {
     <div class="post-nav"><a href="/posts/nginx_1/" class="prev" rel="prev" title="엔진엑스(Nginx) 주요 설정 파일과 간단한 명령어"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>엔진엑스(Nginx) 주요 설정 파일과 간단한 명령어</a>
             <a href="/posts/nginx_3/" class="next" rel="next" title="고성능 부하분산을 위한 엔진엑스 활용 방법-2 (TCP, UDP)">고성능 부하분산을 위한 엔진엑스 활용 방법-2 (TCP, UDP)<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
 </div>
-</article></div>
+<div id="comments"><div id="disqus_thread" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://disqus.com/?ref_noscript">Disqus</a>.
+            </noscript></div></article></div>
             </main><footer class="footer">
         <div class="footer-container"><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022 - 2023</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://github.com/kbaek999" target="_blank">kbaek999</a></span></div>
         </div>
@@ -175,5 +193,5 @@ server {
             </a><a href="#" id="view-comments" class="fixed-button" title="댓글 보기">
                 <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
             </a>
-        </div><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/autocomplete.js@0.38.1/dist/autocomplete.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/algoliasearch@4.13.1/dist/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sharer.js@0.5.1/sharer.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"복사하기","maxShownLines":50},"comment":{},"search":{"algoliaAppID":"","algoliaIndex":"","algoliaSearchKey":"","highlightTag":"em","maxResultLength":10,"noResultsFound":"검색 결과 없음","snippetLength":30,"type":"algolia"}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+        </div><script type="text/javascript" src="https://comment-test-11.disqus.com/embed.js" defer></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/autocomplete.js@0.38.1/dist/autocomplete.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/algoliasearch@4.13.1/dist/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sharer.js@0.5.1/sharer.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"복사하기","maxShownLines":50},"comment":{},"search":{"algoliaAppID":"","algoliaIndex":"","algoliaSearchKey":"","highlightTag":"em","maxResultLength":10,"noResultsFound":"검색 결과 없음","snippetLength":30,"type":"algolia"}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
 </html>

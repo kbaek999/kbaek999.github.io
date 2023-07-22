@@ -4,13 +4,21 @@
         <link>https://kbaek999.github.io/posts/</link>
         <description>모든 글 | kbaek999 Blog</description>
         <generator>Hugo -- gohugo.io</generator><language>ko</language><managingEditor>kkwoo8420@gmail.com (kbaek999)</managingEditor>
-            <webMaster>kkwoo8420@gmail.com (kbaek999)</webMaster><copyright>kbaek999</copyright><lastBuildDate>Tue, 20 Jun 2023 22:27:18 &#43;0900</lastBuildDate><atom:link href="https://kbaek999.github.io/posts/" rel="self" type="application/rss+xml" /><item>
+            <webMaster>kkwoo8420@gmail.com (kbaek999)</webMaster><copyright>kbaek999</copyright><lastBuildDate>Sat, 22 Jul 2023 12:19:57 &#43;0900</lastBuildDate><atom:link href="https://kbaek999.github.io/posts/" rel="self" type="application/rss+xml" /><item>
+    <title>Github Actions와 Youtube API, Twitter API를 이용한 유튜브 영상 자동 트윗 (1)</title>
+    <link>https://kbaek999.github.io/posts/youtube_api_1/</link>
+    <pubDate>Sat, 22 Jul 2023 12:19:57 &#43;0900</pubDate>
+    <author>kbaek999</author>
+    <guid>https://kbaek999.github.io/posts/youtube_api_1/</guid>
+    <description><![CDATA[유튜브 시작했는데 트위터에 홍보하고 싶었음. 기존에는 유튜브에 영상올리고 영상URL이랑 제목 복사해서 트위터에 올렸었음. 간단한 작업이지만 귀찮음. 그래서]]></description>
+</item>
+<item>
     <title>고성능 부하분산을 위한 엔진엑스 활용 방법-2 (TCP, UDP)</title>
     <link>https://kbaek999.github.io/posts/nginx_3/</link>
     <pubDate>Tue, 20 Jun 2023 22:27:18 &#43;0900</pubDate>
     <author>kbaek999</author>
     <guid>https://kbaek999.github.io/posts/nginx_3/</guid>
-    <description><![CDATA[엔진엑스 TCP 부하분산 엔진엑스는 HTTP뿐만 아니라 TCP, UDP 트래픽을 위한 부하분산도 지원합니다. TCP 부하분산은 업스트림 블록과 stream 모듈을 사용하여 구현됩니다. upstream]]></description>
+    <description><![CDATA[엔진엑스 TCP 부하분산 엔진엑스는 HTTP뿐만 아니라 TCP, UDP 트래픽을 위한 부하분산도 지원합니다. TCP 부하분산은 업스트림 블록과 stream 모듈을 사용하여 구현됩니다. 1]]></description>
 </item>
 <item>
     <title>고성능 부하분산을 위한 엔진엑스 활용 방법-1 (HTTP)</title>

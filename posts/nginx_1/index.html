@@ -29,7 +29,7 @@
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "https:\/\/kbaek999.github.io\/posts\/nginx_1\/"
-        },"genre": "posts","keywords": "nginx","wordcount":  601 ,
+        },"genre": "posts","keywords": "nginx","wordcount":  611 ,
         "url": "https:\/\/kbaek999.github.io\/posts\/nginx_1\/","datePublished": "2023-06-16T23:57:18+09:00","dateModified": "2023-06-16T23:57:18+09:00","license": "kbaek999","publisher": {
             "@type": "Organization",
             "name": ""},"author": {
@@ -100,10 +100,10 @@
     </div><main class="main">
                 <div class="container"><div class="toc" id="toc-auto">
             <h2 class="toc-title">목차</h2>
-            <div class="toc-content" id="toc-content-auto"></div>
+            <div class="toc-content always-active" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">엔진엑스(Nginx) 주요 설정 파일과 간단한 명령어</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="https://github.com/kbaek999" title="Author" target="_blank" rel="noopener noreffer author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>kbaek999</a></span>&nbsp;<span class="post-category">분류: <a href="/categories/tech/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Tech</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2023-06-16">2023-06-16</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;601 단어&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2023-06-16">2023-06-16</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;611 단어&nbsp;
                 <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;읽는데 약 2분&nbsp;</div>
         </div><div class="details toc" id="toc-static"  data-kept="">
                 <div class="details-summary toc-title">
@@ -140,20 +140,42 @@
 </ul>
 <h2 id="2-정적-콘텐츠-서비스-설정하기">2. 정적 콘텐츠 서비스 설정하기</h2>
 <p>다음은 엔진엑스로 정적 콘텐츠를 제공하는 기본 설정 예시</p>
-<pre tabindex="0"><code>server {
-    listen 80 default_server;
-    server_name www.example.com;
-    location / {
-        root /usr/share/nginx/html;
-        # alias /usr/share/nginx/html;
-        index index.html index.htm;
-    }
-}
-</code></pre><p>위 설정은 HTTP 프로토콜과 80 포트를 이용해 정적 콘텐츠를 제공합니다. <code>root</code> 지시자를 사용하여 제공할 콘텐츠의 위치를 지정할 수 있으며, <code>index</code> 지시자로 기본 파일 지정이 가능합니다.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">server {
+</span></span><span class="line"><span class="cl">    listen 80 default_server;
+</span></span><span class="line"><span class="cl">    server_name www.example.com;
+</span></span><span class="line"><span class="cl">    location / {
+</span></span><span class="line"><span class="cl">        root /usr/share/nginx/html;
+</span></span><span class="line"><span class="cl">        # alias /usr/share/nginx/html;
+</span></span><span class="line"><span class="cl">        index index.html index.htm;
+</span></span><span class="line"><span class="cl">    }
+</span></span><span class="line"><span class="cl">}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>위 설정은 HTTP 프로토콜과 80 포트를 이용해 정적 콘텐츠를 제공합니다. <code>root</code> 지시자를 사용하여 제공할 콘텐츠의 위치를 지정할 수 있으며, <code>index</code> 지시자로 기본 파일 지정이 가능합니다.</p>
 <h2 id="3-무중단-설정-리로드">3. 무중단 설정 리로드</h2>
 <p>엔진엑스 설정을 변경할 때 서버를 중지하지 않고 설정을 리로드하는 방법은 다음과 같습니다.</p>
-<pre tabindex="0"><code>nginx -s reload
-</code></pre><p>이 명령은 동작 중인 엔진엑스의 마스터 프로세스에 리로드 신호를 보내 설정을 다시 읽도록 지시합니다. 결과적으로 패킷 손실 없이 엔진엑스 설정을 변경하며, 이 기능을 활용하여 무중단 설정 리로드가 가능합니다.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">nginx -s reload
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>이 명령은 동작 중인 엔진엑스의 마스터 프로세스에 리로드 신호를 보내 설정을 다시 읽도록 지시합니다. 결과적으로 패킷 손실 없이 엔진엑스 설정을 변경하며, 이 기능을 활용하여 무중단 설정 리로드가 가능합니다.</p>
 <p>이상으로 엔진엑스의 주요 설정 파일, 디렉터리, 명령어 이해 및 정적 콘텐츠 제공 설정 방법과 무중단 설정 리로드에 대해 살펴보았습니다. 이를 통해 엔진엑스를 사용할 준비가 되었습니다. 변경된 설정을 시험하고 문제가 없다면, <code>nginx -s reload</code> 명령으로 무중단 설정 리로드를 수행하세요.</p>
 </div><div class="post-footer" id="post-footer">
     <div class="post-info">
@@ -179,7 +201,9 @@
     <div class="post-nav">
             <a href="/posts/nginx_2/" class="next" rel="next" title="고성능 부하분산을 위한 엔진엑스 활용 방법-1 (HTTP)">고성능 부하분산을 위한 엔진엑스 활용 방법-1 (HTTP)<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
 </div>
-</article></div>
+<div id="comments"><div id="disqus_thread" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://disqus.com/?ref_noscript">Disqus</a>.
+            </noscript></div></article></div>
             </main><footer class="footer">
         <div class="footer-container"><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022 - 2023</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://github.com/kbaek999" target="_blank">kbaek999</a></span></div>
         </div>
@@ -190,5 +214,5 @@
             </a><a href="#" id="view-comments" class="fixed-button" title="댓글 보기">
                 <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
             </a>
-        </div><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/autocomplete.js@0.38.1/dist/autocomplete.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/algoliasearch@4.13.1/dist/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sharer.js@0.5.1/sharer.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"복사하기","maxShownLines":50},"comment":{},"search":{"algoliaAppID":"","algoliaIndex":"","algoliaSearchKey":"","highlightTag":"em","maxResultLength":10,"noResultsFound":"검색 결과 없음","snippetLength":30,"type":"algolia"}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+        </div><script type="text/javascript" src="https://comment-test-11.disqus.com/embed.js" defer></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/autocomplete.js@0.38.1/dist/autocomplete.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/algoliasearch@4.13.1/dist/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sharer.js@0.5.1/sharer.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"복사하기","maxShownLines":50},"comment":{},"search":{"algoliaAppID":"","algoliaIndex":"","algoliaSearchKey":"","highlightTag":"em","maxResultLength":10,"noResultsFound":"검색 결과 없음","snippetLength":30,"type":"algolia"}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
 </html>
