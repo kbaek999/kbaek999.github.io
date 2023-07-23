@@ -4,7 +4,15 @@
         <link>https://kbaek999.github.io/categories/tech/</link>
         <description>Tech - 카테고리 - kbaek999 Blog</description>
         <generator>Hugo -- gohugo.io</generator><language>ko</language><managingEditor>kkwoo8420@gmail.com (kbaek999)</managingEditor>
-            <webMaster>kkwoo8420@gmail.com (kbaek999)</webMaster><copyright>kbaek999</copyright><lastBuildDate>Sat, 22 Jul 2023 12:19:57 &#43;0900</lastBuildDate><atom:link href="https://kbaek999.github.io/categories/tech/" rel="self" type="application/rss+xml" /><item>
+            <webMaster>kkwoo8420@gmail.com (kbaek999)</webMaster><copyright>kbaek999</copyright><lastBuildDate>Sun, 23 Jul 2023 16:08:20 &#43;0900</lastBuildDate><atom:link href="https://kbaek999.github.io/categories/tech/" rel="self" type="application/rss+xml" /><item>
+    <title>Github Actions와 Youtube API, Twitter API를 이용한 유튜브 영상 자동 트윗 (2)</title>
+    <link>https://kbaek999.github.io/posts/youtube_api_2/youtube_api_2/</link>
+    <pubDate>Sun, 23 Jul 2023 16:08:20 &#43;0900</pubDate>
+    <author>kbaek999</author>
+    <guid>https://kbaek999.github.io/posts/youtube_api_2/youtube_api_2/</guid>
+    <description><![CDATA[간단한 설명 유튜브에서 가져온 영상 정보를 트위터에 올리는 코드를 작성. 1. Twitter API발급 트위터 개발자 포털에 접속해서 API발급 https://developer.twitter.com/en/portal/dashboard 트위터 계정이 있으면 자동으로]]></description>
+</item>
+<item>
     <title>Github Actions와 Youtube API, Twitter API를 이용한 유튜브 영상 자동 트윗 (1)</title>
     <link>https://kbaek999.github.io/posts/youtube_api_1/</link>
     <pubDate>Sat, 22 Jul 2023 12:19:57 &#43;0900</pubDate>
